@@ -1,16 +1,24 @@
 from cafe.Inventory.inventory import Inventory
 from cafe.Coffee.coffee import Coffee
-
+from cafe.Product.Product import Product
+from cafe.Beverage.Beverage import Beverage
 
 class Application:
     def __init__(self):
         self.inventory = Inventory()
 
     def handle_menu(self):
-        coffeename = input("커피 이름: ")
-        coffeeprice = input("커피 가격: ")
-        self.inventory.add_coffee(Coffee(coffeename,coffeeprice))
-        print("커피가 등록되었습니다.")
+        product_type = input("제품 유형을 선택하세요(커피,음료): ")
+        name = input("제품 이름: ")
+        price = int(input("제품 가격: "))
+        if product_type =="커피":
+            caffeine = int(input("카페인 함량을 입력하세요: "))
+            self.inventory.add_product(Coffee(name,price,caffeine))
+        elif product_type=="음류":
+            self.inventory.add_product(Beverage(name,price))
+        else:
+            print("잘못된 제품 유형입니다 다시 시도해주세요")
+
     def handle_sale(self):
         inventory_items = self.inventory.get_inventory()
         # 인벤토리가 비어있을 경우
@@ -19,8 +27,8 @@ class Application:
             return
         # 인벤토리에 있을 경우
         print("판매할 커피를 선택하세요")
-        for index, (name, coffee) in enumerate(inventory_items.items()):
-            print(f"{index}.{coffee.get_name()} : {coffee.get_price()}원")
+        for index, (name, product) in enumerate(inventory_items.items()):
+            print(f"{index}.{product.get_name()} : {product.get_price()}원")
 
         choice = int(input("번호를 입력하세요: "))
         coffeelist = list(inventory_items.keys())
@@ -29,7 +37,7 @@ class Application:
 
     def run(self):
         while True:
-            print("1. 커피판매")
+            print("1. 제품판매")
             print("2. 커피메뉴 추가")
             print("3. 프로그램 종료")
             action = input("원하는 작업 번호 입력: ")

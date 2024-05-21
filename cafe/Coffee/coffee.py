@@ -1,11 +1,10 @@
-class Coffee:
-    def __init__(self,name,price):
-        self.name = name
-        self.price = price
+from ..Product.Product import Product
 
-    def get_name(self):
-        return self.name
+class Coffee(Product):
+    def __init__(self,name,price,caffeine_content):
+        super().__init__(name,price)
+        self.caffeine_content = caffeine_content
 
-    def get_price(self):
-        return self.price
+    def display_info(self):
+        print(f"{self.name}-{self.price}원, {self.caffeine_content}")
 
